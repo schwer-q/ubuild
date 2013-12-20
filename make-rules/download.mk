@@ -26,6 +26,6 @@
 
 ifeq ($(NO_DOWNLOAD),)
 download:
-	@echo "Downloading $(COMPONENTS_ARCHIVE)..."
+	@echo "Downloading $(COMPONENT_ARCHIVE)..."
 	@$(FETCH) $(COMPONENT_ARCHIVE) $(COMPONENT_ARCHIVE_URL) $(COMPONENT_ARCHIVE_HASH)
 endif
