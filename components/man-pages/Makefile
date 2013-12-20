@@ -37,12 +37,12 @@ COMPONENT_ARCHIVE_HASH=	md5:c3ab5df043bc95de69f73cb71a3c7bb6
 include		$(WS_MAKE_RULES)/download.mk
 include		$(WS_MAKE_RULES)/extract.mk
 
-build:		extract $(BUILDDIR)/%/.built
-$(BUILDDIR)/%/.built:
-	make gz
-	$(TOUCH) $(BUILDDIR)/%/.built
+build:		extract $(BUILDDIR)/.built
+$(BUILDDIR)/.built:
+	make -C $(SOURCEDIR) gz
+	$(TOUCH) $@
 
-install:	build $(BUILDDIR)/%/.installed
-$(BUILDDIR)/%/.installed:
-	make install DESTDIR=$(DESTDIR)
-	$(TOUCH) $(BUILDDIR)/%/.installed
+install:	build $(BUILDDIR)/.installed
+$(BUILDDIR)/.installed:
+	make -C $(SOURCEDIR) install DESTDIR=$(INSTALLDIR)
+	$(TOUCH) $@
