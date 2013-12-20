@@ -24,7 +24,7 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-include 	../make-rules/shared-macros.mk
+include 	../../make-rules/shared-macros.mk
 
 COMPONENT_NAME=		man-pages
 COMPONENT_VERSION=	3.53
@@ -34,8 +34,10 @@ COMPONENT_ARCHIVE=	${COMPONENT_SRC}.tar.xz
 COMPONENT_ARCHIVE_URL=	http://www.kernel.org/pub/linux/docs/$(COMPONENT_NAME)/$(COMPONENT_ARCHIVE)
 COMPONENT_ARCHIVE_HASH=	md5:c3ab5df043bc95de69f73cb71a3c7bb6
 
-build::
+include		$(WS_MAKE_RULES)/download.mk
+
+build:
 	make gz
 
-install::
+install:
 	make install DESTDIR=$(DESTDIR)
