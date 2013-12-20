@@ -42,10 +42,12 @@ COMPONENTS_MK=	$(WS_TOOLS)/components_mk
 
 BUILDDIR=	$(COMPONENT_DIR)/$(COMPONENT_SRC)
 COMPONENT_DIR=	$(shell pwd)
+COMPONENT_FILES= $(COMPONENT_DIR)/files
 INSTALLDIR=	$(COMPONENT_DIR)/install
 PROGRESSDIR=	$(COMPONENT_DIR)/progress
 SOURCEDIR=	$(COMPONENT_DIR)/$(COMPONENT_SRC)
 
+CP=		/bin/cp
 ENV=		/usr/bin/env
 EXTRACT=	$(WS_TOOLS)/extract.sh
 FETCH=		$(WS_TOOLS)/fetch.sh
@@ -61,6 +63,7 @@ SYMLINK=	/bin/ln -s
 TAR=		/bin/tar
 TOUCH=		/usr/bin/touch
 
+export CP
 export ENV
 export EXTRACT
 export FETCH
