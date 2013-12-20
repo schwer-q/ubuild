@@ -43,7 +43,7 @@ do_compare() {
 		'sha256') CMD=$SHA256;;
 		*) echo 'Unkwown hash.'; exit 2;;
 	esac
-	SUM=`$CMD ${WS_DISTFILES}/$COMPONENT_ARCHIVE`
+	SUM=`$CMD ${WS_DISTFILES}/$COMPONENT_ARCHIVE | cut -d' ' -f1`
 	test "$ESUM" = "$SUM" && return 0
 	echo "${COMPONENT_ARCHIVE}: bad $ALGO sum."
         $RM ${WS_DISTFILES}/$COMPONENT_ARCHIVE
