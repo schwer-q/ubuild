@@ -30,6 +30,12 @@ WS_DISTFILES=	$(WS_ROOT)/distfiles
 WS_MAKE_RULES=	$(WS_ROOT)/make-rules
 WS_REPO=	$(WS_ROOT)/repo
 WS_TOOLS=	$(WS_ROOT)/tools
+export WS_ROOT 
+export WS_COMPONENTS
+export WS_DISTFILES
+export WS_MAKE_RULES
+export WS_REPO
+export WS_TOOLS
 
 COMPONENTS_MK=	$(WS_TOOLS)/components_mk
 
@@ -43,5 +49,15 @@ FIND=		/usr/bin/find
 GMAKE=		/usr/bin/gmake
 MD5SUM=		/usr/bin/md5sum
 MKDIR=		/bin/mkdir -p
+RM=		/bin/rm -f
 SHA256SUM=	/usr/bin/sha256sum
 SYMLINK=	/bin/ln -s
+
+export FETCH
+export FIND
+export GMAKE
+export MD5SUM
+export MKDIR
+export RM
+export SHA256SUM
+export SYMLINK
