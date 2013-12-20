@@ -27,5 +27,6 @@
 extract:	$(PROGRESSDIR)/extracted
 $(PROGRESSDIR)/extracted:
 	@echo "Extracting $(COMPONENT_NAME)..."
+	@$(MKDIR) $(PROGRESSDIR)
 	@$(EXTRACT) $(WS_DISTFILES)/$(COMPONENT_ARCHIVE)
-	@$(TOUCH) $(PROGRESS)/extracted
+	@$(TOUCH) $@
