@@ -42,10 +42,11 @@ COMPONENTS_MK=	$(WS_TOOLS)/components_mk
 
 COMPONENT_DIR=	$(shell pwd)
 BUILDDIR=	$(COMPONENT_DIR)/$(COMPONENT_SRC)
-INSTALLDIR=	$(COMPONENT_DIR)/$(COMPONENT_NAME)
+INSTALLDIR=	$(COMPONENT_DIR)/install
 SOURCEDIR=	$(COMPONENT_DIR)/$(COMPONENT_SRC)
 
 ENV=		/usr/bin/env
+EXTRACT=	$(WS_TOOLS)/extract.sh
 FETCH=		$(WS_TOOLS)/fetch.sh
 FIND=		/usr/bin/find
 GMAKE=		/usr/bin/gmake
@@ -55,9 +56,11 @@ RM=		/bin/rm -f
 SH=		/bin/sh
 SHA256SUM=	/usr/bin/sha256sum
 SYMLINK=	/bin/ln -s
-TAR=		/usr/bin/tar
+TAR=		/bin/tar
+TOUCH=		/usr/bin/touch
 
 export ENV
+export EXTRACT
 export FETCH
 export FIND
 export GMAKE
@@ -68,3 +71,4 @@ export SH
 export SHA256SUM
 export SYMLINK
 export TAR
+export TOUCH
