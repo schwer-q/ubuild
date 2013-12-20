@@ -24,6 +24,8 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-extract:
+extract:	.extracted
+.extracted:
 	@echo "Extracting $(COMPONENT_NAME)..."
 	@$(EXTRACT) $(WS_DISTFILES)/$(COMPONENT_ARCHIVE)
+	$(TOUCH) .extracted
