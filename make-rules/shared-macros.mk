@@ -54,6 +54,7 @@ GMAKE=		/usr/bin/gmake
 MD5SUM=		/usr/bin/md5sum
 MKDIR=		/bin/mkdir -p
 RM=		/bin/rm -f
+SED=		/bin/sed
 SH=		/bin/sh
 SHA256SUM=	/usr/bin/sha256sum
 SYMLINK=	/bin/ln -s
@@ -68,6 +69,7 @@ export GMAKE
 export MD5SUM
 export MKDIR
 export RM
+export SED
 export SH
 export SHA256SUM
 export SYMLINK

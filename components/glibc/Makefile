@@ -1,68 +1,69 @@
-#!/bin/sh -
-# -*- sh-basic-offset 8  -*-
+#
+# Copyright (c) 2013, Quentin Schwerkolt
+# All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without modification,
+# are permitted provided that the following conditions are met:
+#
+# * Redistributions of source code must retain the above copyright notice, this
+#   list of conditions and the following disclaimer.
+#
+# * Redistributions in binary form must reproduce the above copyright notice, this
+#   list of conditions and the following disclaimer in the documentation and/or
+#   other materials provided with the distribution.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+# ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+# WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+# DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+# ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+# (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+# LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+# ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+# SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
 
-set -e
+include 	../../make-rules/shared-macros.mk
 
-COMPONENT_NAME="glibc"
-COMPONENT_VERSION="2.18"
-COMPONENT_PROJECT_URL="http://www.gnu.org/software/libc"
-COMPONENT_SRC="${COMPONENT_NAME}-${COMPONENT_VERSION}"
-COMPONENT_ARCHIVE="${COMPONENT_SRC}.tar.xz"
-COMPONENT_ARCHIVE_URL="http://ftp.gnu.org/gnu/${COMPONENT_NAME}/${COMPONENT_ARCHIVE}"
-COMPONENT_ARCHIVE_HASH="md5:c3ab5df043bc95de69f73cb71a3c7bb6"
+COMPONENT_NAME=		glibc
+COMPONENT_VERSION=	2.18
+COMPONENT_PROJECT_URL=	http://www.gnu.org/software/libc
+COMPONENT_SRC=		${COMPONENT_NAME}-${COMPONENT_VERSION}
+COMPONENT_ARCHIVE=	${COMPONENT_SRC}.tar.xz
+COMPONENT_ARCHIVE_URL=	http://ftp.gnu.org/gnu/${COMPONENT_NAME}/${COMPONENT_ARCHIVE}
+COMPONENT_ARCHIVE_HASH=	md5:c3ab5df043bc95de69f73cb71a3c7bb6
 
-USE_CONFIGURE="yes"
-CONFIGURE_BUILD="${COMPONENT_SRC}/../${COMPONENT_NAME}-build"
+include		../../make-rules/download.mk
 
-prep() {
-	sed -i -e 's/static __m128i/inline &/' sysdeps/x86_64/multiarch/strstr.c
-}
+patch::
+	$(SED) -i -e 's/static __m128i/inline &/' sysdeps/x86_64/multiarch/strstr.c
 
-build() {
-	CONFIGURE_PATH="../${COMPONENT_SRC}/configure"
-	CONFIGURE_PREFIX="/usr"
-	CONFIGURE_OPTIONS="--disable-profile"
-	CONFIGURE_OPTIONS="${CONFIGURE_OPTIONS} --enable-kernel=2.6.32"
-	CONFIGURE_OPTIONS="${CONFIGURE_OPTIONS} --libexecdir=${CONFIGURE_PREFIX}/lib/glibc"
+include		../../make-rules/configure.mk
 
-	make
-}
+BUILDDIR=		$(SOURCEDIR)/../build
+CONFIGURE_PREFIX=	/usr
+CONFIGURE_OPTIONS+=	--disable-profile
+CONFIGURE_OPTIONS+=	--enable-kernel=2.6.32
+CONFIGURE_OPTIONS+=	--libexecdir=/usr/lib/glibc
 
-install() {
-	touch ${DESTDIR}/etc/ls.so.conf
-	make install install_root="${DESTDIR}"
-	cp -v ../${COMPONENT_SRC}/sunrpc/rpc/*.h ${DESTDIR}/usr/include/rpc
-	cp -v ../${COMPONENT_SRC}/sunrpc/rpcsvc/*.h ${DESTDIR}/usr/include/rpcsvc
-	cp -v ../${COMPONENT_SRC}/nis/rpcsvc/*.h ${DESTDIR}/usr/include/rpcsvc
-	mkdir -p ${DESTDIR}/usr/lib/locale
-	make localedata/install-locales install_root="${DESTDIR}"
+build:		$(CONFIGURE_BUILD)
 
-	cat > ${DESTDIR}/nsswitch.conf << "EOF"
-# Begin /etc/nsswitch.conf
+COMPONENT_INSTALL_ARGS+=	install_root=$(INSTALLDIR)
+COMPONENT_INSTALL_TARGETS=	install install-locales
+COMPONENT_INSTALL_PRE+=		$(MKDIR) $(INSTALLDIR)/etc;
+COMPONENT_INSTALL_PRE+=		$(TOUCH) $(INSTALLDIR)/etc/ld.so.conf;
+COMPONENT_INSTALL_PRE+=		$(CP) ../$(COMPONENT_SRC)/sunrpc/rpc/*.h \
+					$(INSTALLDIR)/usr/include/rpc;
+COMPONENT_INSTALL_PRE+=		$(CP) ../$(COMPONENT_SRC)/sunrpc/rpcsvc/*.h \
+					$(INSTALLDIR)/usr/include/rpcsvc;
+COMPONENT_INSTALL_PRE+=		$(CP) ../$(COMPONENT_SRC)/nis/rpcsvc/*.h \
+					$(INSTALLDIR)/usr/include/rpcsvc;
+COMPONENT_INSTALL_PRE+=		$(MKDIR) $(DESTDIR)/usr/lib/locale;
+COMPONENT_INSTALL_POST+=	$(CP) $(COMPONENT_FILES)/etc.nsswitch.conf \
+					$(INSTALLDIR)/etc/nsswitch.conf;
+COMPONENT_INSTALL_POST+=	$(CP) $(COMPONENT_FILES)/etc.ld.so.conf \
+					$(INSTALLDIR)/etc/ld.so.conf;
+COMPONENT_INSTALL_POST+=	$(MKDIR) ${DESTDIR}/etc/ld.so.conf.d;
 
-passwd: files
-group: files
-shadow: files
-
-hosts: files dns
-networks: files
-
-protocols: files
-services: files
-ethers: files
-rpc: files
-
-# End /etc/nsswitch.conf
-EOF
-
-	cat > ${DESTDIR}/etc/ld.so.conf << "EOF"
-# Begin /etc/ld.so.conf
-/usr/local/lib
-/opt/lib
-
-include /etc/ld.so.conf.d/*.conf
-
-
-EOF
-	mkdir -p ${DESTDIR}/etc/ld.so.conf.d
-}
+install:	$(CONFIGURE_INSTALL)
