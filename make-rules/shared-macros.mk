@@ -30,7 +30,8 @@ WS_DISTFILES=	$(WS_ROOT)/distfiles
 WS_MAKE_RULES=	$(WS_ROOT)/make-rules
 WS_REPO=	$(WS_ROOT)/repo
 WS_TOOLS=	$(WS_ROOT)/tools
-export WS_ROOT 
+
+export WS_ROOT
 export WS_COMPONENTS
 export WS_DISTFILES
 export WS_MAKE_RULES
@@ -41,23 +42,27 @@ COMPONENTS_MK=	$(WS_TOOLS)/components_mk
 
 COMPONENT_DIR=	$(shell pwd)
 BUILDDIR=	$(COMPONENT_DIR)/$(COMPONENT_SRC)
-DESTDIR=	$(COMPONENT_DIR)/$(COMPONENT_NAME)
+INSTALLDIR=	$(COMPONENT_DIR)/$(COMPONENT_NAME)
 SOURCEDIR=	$(COMPONENT_DIR)/$(COMPONENT_SRC)
 
+ENV=		/usr/bin/env
 FETCH=		$(WS_TOOLS)/fetch.sh
 FIND=		/usr/bin/find
 GMAKE=		/usr/bin/gmake
 MD5SUM=		/usr/bin/md5sum
 MKDIR=		/bin/mkdir -p
 RM=		/bin/rm -f
+SH=		/bin/sh
 SHA256SUM=	/usr/bin/sha256sum
 SYMLINK=	/bin/ln -s
 
+export ENV
 export FETCH
 export FIND
 export GMAKE
 export MD5SUM
 export MKDIR
 export RM
+export SH
 export SHA256SUM
 export SYMLINK
