@@ -24,8 +24,8 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-extract:	.extracted
-.extracted:
+extract:	$(PROGRESSDIR)/extracted
+$(PROGRESSDIR)/extracted:
 	@echo "Extracting $(COMPONENT_NAME)..."
 	@$(EXTRACT) $(WS_DISTFILES)/$(COMPONENT_ARCHIVE)
-	$(TOUCH) .extracted
+	@$(TOUCH) $(PROGRESS)/extracted

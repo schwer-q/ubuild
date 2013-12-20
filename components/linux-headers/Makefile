@@ -24,7 +24,7 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-include 	../make-rules/shared-macros.mk
+include 	../../make-rules/shared-macros.mk
 
 COMPONENT_NAME=		linux-headers
 COMPONENT_VERSION=	3.10.10
@@ -34,14 +34,20 @@ COMPONENT_ARCHIVE=	$(COMPONENT_SRC).tar.xz
 COMPONENT_ARCHIVE_URL=	http://www.kernel.org/pub/linux/kernel/v3.x/$(COMPONENT_ARCHIVE)
 COMPONENT_ARCHIVE_HASH=	md5:647f76225dd6bc112369ba573ba3de18
 
+include		$(WS_MAKE_RULES)/download.mk
+include		$(WS_MAKE_RULES)/extract.mk
+
 prep::
-	@$(GMAKE) mrproper
+	@$(MAKE) mrproper
 
-build::
-	@$(GMAKE) header_check
+build:		extract $(PROGRESSDIR)/built
+$(PROGRESSDIR)/built:
+	@$(MAKE) header_check
+	@$(TOUCH) $@
 
-
-install::
+install:	build $(PROGRESSDIR)/installed
+$(PROGRESSDIR)/installed:
 	@$(MKDIR) $(DESTDIR)/usr/include
-	@$(GMAKE) INSTALL_HDR_PATH="$(DESTDIR)/usr/include" headers_install
+	@$(MAKE) INSTALL_HDR_PATH="$(DESTDIR)/usr/include" headers_install
 	@$(FIND) $(DESTDIR)/usr/include \( -name .install -o -name ..install.cmd \) -delete
+	@$(TOUCH) $@
