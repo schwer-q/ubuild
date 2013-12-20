@@ -32,9 +32,10 @@ COMPONENT_PROJECT_URL=	http://www.gnu.org/software/libc
 COMPONENT_SRC=		${COMPONENT_NAME}-${COMPONENT_VERSION}
 COMPONENT_ARCHIVE=	${COMPONENT_SRC}.tar.xz
 COMPONENT_ARCHIVE_URL=	http://ftp.gnu.org/gnu/${COMPONENT_NAME}/${COMPONENT_ARCHIVE}
-COMPONENT_ARCHIVE_HASH=	md5:c3ab5df043bc95de69f73cb71a3c7bb6
+COMPONENT_ARCHIVE_HASH=	md5:88fbbceafee809e82efd52efa1e3c58f
 
 include		../../make-rules/download.mk
+include		../../make-rules/extract.mk
 
 patch::
 	$(SED) -i -e 's/static __m128i/inline &/' sysdeps/x86_64/multiarch/strstr.c
@@ -50,7 +51,7 @@ CONFIGURE_OPTIONS+=	--libexecdir=/usr/lib/glibc
 build:		$(CONFIGURE_BUILD)
 
 COMPONENT_INSTALL_ARGS+=	install_root=$(INSTALLDIR)
-COMPONENT_INSTALL_TARGETS=	install install-locales
+COMPONENT_INSTALL_TARGETS=	install localedata/install-locales
 COMPONENT_INSTALL_PRE+=		$(MKDIR) $(INSTALLDIR)/etc;
 COMPONENT_INSTALL_PRE+=		$(TOUCH) $(INSTALLDIR)/etc/ld.so.conf;
 COMPONENT_INSTALL_PRE+=		$(CP) ../$(COMPONENT_SRC)/sunrpc/rpc/*.h \
