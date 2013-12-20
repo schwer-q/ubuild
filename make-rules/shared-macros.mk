@@ -55,6 +55,7 @@ RM=		/bin/rm -f
 SH=		/bin/sh
 SHA256SUM=	/usr/bin/sha256sum
 SYMLINK=	/bin/ln -s
+TAR=		/usr/bin/tar
 
 export ENV
 export FETCH
@@ -66,3 +67,4 @@ export RM
 export SH
 export SHA256SUM
 export SYMLINK
+export TAR
