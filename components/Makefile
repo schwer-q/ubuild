@@ -38,9 +38,10 @@ setup:		TARGET = setup
 configure:	TARGET = configure
 build:		TARGET = build
 install:	TARGET = install
+package:	TARGET = package
 clean:		TARGET = clean
 
-download prep build install:	$(COMPONENT_DIRS)
+download unpack setup configure build install package clean:	$(COMPONENT_DIRS)
 
 $(COMPONENT_DIRS): force
 	@+echo "$(TARGET) $@"; $(MAKE) -C $@ $(TARGET)
