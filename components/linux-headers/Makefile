@@ -42,12 +42,12 @@ prep::
 
 build:		extract $(PROGRESSDIR)/built
 $(PROGRESSDIR)/built:
-	@$(MAKE) header_check
+	@(cd $(SOURCEDIR); $(MAKE) headers_check)
 	@$(TOUCH) $@
 
 install:	build $(PROGRESSDIR)/installed
 $(PROGRESSDIR)/installed:
-	@$(MKDIR) $(DESTDIR)/usr/include
-	@$(MAKE) INSTALL_HDR_PATH="$(DESTDIR)/usr/include" headers_install
-	@$(FIND) $(DESTDIR)/usr/include \( -name .install -o -name ..install.cmd \) -delete
+	@$(MKDIR) $(DESTDIR)/usr
+	@(cd $(SOURCEDIR); $(MAKE) INSTALL_HDR_PATH="$(INSTALLDIR)/usr" headers_install)
+	@$(FIND) $(INSTALLDIR)/usr/include \( -name .install -o -name ..install.cmd \) -delete
 	@$(TOUCH) $@
