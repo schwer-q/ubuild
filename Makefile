@@ -36,6 +36,6 @@ install:	TARGET = install
 download prep build install:	$(SUBDIRS)
 
 $(SUBDIRS): force
-	@+echo "$(TARGET) $@"; $(GMAKE) -C $@ $(TARGET)
+	@+echo "$(TARGET) $@"; $(MAKE) -C $@ $(TARGET)
 
 force:

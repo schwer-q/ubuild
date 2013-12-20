@@ -43,6 +43,6 @@ clean:		TARGET = clean
 download prep build install:	$(COMPONENT_DIRS)
 
 $(COMPONENT_DIRS): force
-	@+echo "$(TARGET) $@"; $(GMAKE) -C $@ $(TARGET)
+	@+echo "$(TARGET) $@"; $(MAKE) -C $@ $(TARGET)
 
 force:
