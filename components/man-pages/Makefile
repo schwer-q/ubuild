@@ -35,9 +35,14 @@ COMPONENT_ARCHIVE_URL=	http://www.kernel.org/pub/linux/docs/$(COMPONENT_NAME)/$(
 COMPONENT_ARCHIVE_HASH=	md5:c3ab5df043bc95de69f73cb71a3c7bb6
 
 include		$(WS_MAKE_RULES)/download.mk
+include		$(WS_MAKE_RULES)/extract.mk
 
-build:
+build:		extract $(BUILDDIR)/%/.built
+$(BUILDDIR)/%/.built:
 	make gz
+	$(TOUCH) $(BUILDDIR)/%/.built
 
-install:
+install:	build $(BUILDDIR)/%/.installed
+$(BUILDDIR)/%/.installed:
 	make install DESTDIR=$(DESTDIR)
+	$(TOUCH) $(BUILDDIR)/%/.installed
