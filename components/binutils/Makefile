@@ -41,8 +41,7 @@ patch::
 	$(RM) $(SOURCEDIR)/etc/standards.info
 	$(SED) -i '.bak' '/^INFO/s/standards.info //' $(SOURCEDIR)/etc/Makefile.in
 	$(SED) -i  -e 's/@colophon/@@colophon/' \
-		   -e 's/doc@cygnus.com/doc@@cygnus.com/' $(SOURCEDIR)/bfd/doc/bfd.texinfo
-}
+		   -e 's/doc@cygnus.com/doc@@cygnus.com/' $(SOURCEDIR)/bfd/doc/bfd.texinfo}
 
 include		$(WS_MAKE_RULES)/configure.mk
 
@@ -52,7 +51,7 @@ COMPONENT_BUILD_ARGS+=	tooldir=/usr
 
 build:		$(CONFIGURE_BUILD)
 
-COMPONENT_INSTALL_ARGS+=	--tooldir=/usr
-COMPONENT_INSTALL_POST+=	$(CP) $(SOURCEDIR)include/libiberty.h $(INSTALLDIR)/usr/include;
+COMPONENT_INSTALL_ARGS+=	tooldir=/usr
+COMPONENT_INSTALL_POST+=	$(CP) $(SOURCEDIR)/include/libiberty.h $(INSTALLDIR)/usr/include;
 
 install:	$(CONFIGURE_INSTALL)
