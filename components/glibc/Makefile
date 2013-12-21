@@ -34,13 +34,13 @@ COMPONENT_ARCHIVE=	${COMPONENT_SRC}.tar.xz
 COMPONENT_ARCHIVE_URL=	http://ftp.gnu.org/gnu/${COMPONENT_NAME}/${COMPONENT_ARCHIVE}
 COMPONENT_ARCHIVE_HASH=	md5:88fbbceafee809e82efd52efa1e3c58f
 
-include		../../make-rules/download.mk
-include		../../make-rules/extract.mk
+include		$(WS_MAKE_RULES)/download.mk
+include		$(WS_MAKE_RULES)/extract.mk
 
 patch::
-	$(SED) -i -e 's/static __m128i/inline &/' sysdeps/x86_64/multiarch/strstr.c
+	$(SED) -i -e 's/static __m128i/inline &/' $(SOURCEDIR)/sysdeps/x86_64/multiarch/strstr.c
 
-include		../../make-rules/configure.mk
+include		$(WS_MAKE_RULES)/configure.mk
 
 BUILDDIR=		$(SOURCEDIR)/../build
 CONFIGURE_PREFIX=	/usr
