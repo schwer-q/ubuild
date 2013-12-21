@@ -60,7 +60,7 @@ RM=		/bin/rm -f
 SED=		/bin/sed
 SH=		/bin/sh
 SHA256SUM=	/usr/bin/sha256sum
-SYMLINK=	/bin/ln -s
+SYMLINK=	/bin/ln -s -f
 TAR=		/bin/tar
 TOUCH=		/usr/bin/touch
 
