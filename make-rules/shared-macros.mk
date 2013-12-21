@@ -55,6 +55,7 @@ FIND=		/usr/bin/find
 GMAKE=		/usr/bin/gmake
 MD5SUM=		/usr/bin/md5sum
 MKDIR=		/bin/mkdir -p
+MV=		/bin/mv
 RM=		/bin/rm -f
 SED=		/bin/sed
 SH=		/bin/sh
@@ -71,6 +72,7 @@ export FIND
 export GMAKE
 export MD5SUM
 export MKDIR
+export MV
 export RM
 export SED
 export SH
