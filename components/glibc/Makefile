@@ -51,7 +51,7 @@ CONFIGURE_OPTIONS+=	--libexecdir=/usr/lib/glibc
 build:		$(CONFIGURE_BUILD)
 
 COMPONENT_INSTALL_ARGS+=	install_root=$(INSTALLDIR)
-COMPONENT_INSTALL_TARGETS=	localedata/install-locales
+COMPONENT_INSTALL_TARGETS+=	localedata/install-locales
 COMPONENT_INSTALL_PRE+=		$(MKDIR) $(INSTALLDIR)/etc;
 COMPONENT_INSTALL_PRE+=		$(TOUCH) $(INSTALLDIR)/etc/ld.so.conf;
 COMPONENT_INSTALL_PRE+=		$(CP) ../$(COMPONENT_SRC)/sunrpc/rpc/*.h \
