@@ -43,9 +43,10 @@ CONFIGURE_OPTIONS+=	--enable-cxx
 
 build:		$(CONFIGURE_BUILD)
 
-COMPONENT_INSTALL_POST+=	$(MKDIR) $(DESTDIR)/usr/share/doc/$(COMPONENT_SRC);
+COMPONENT_INSTALL_POST+=	$(MKDIR) $(INSTALLDIR)/usr/share/doc/$(COMPONENT_SRC);
 COMPONENT_INSTALL_POST+=	$(CP) $(SOURCEDIR)/doc/isa_abi_headache \
-					$(SOURCEDIR)/doc/configuration doc/*.html \
-					$(DESTDIR)/usr/share/doc/$(COMPONENT_SRC)
+					$(SOURCEDIR)/doc/configuration \
+					$(SOURCEDIR)/doc/*.html \
+					$(INSTALLDIR)/usr/share/doc/$(COMPONENT_SRC)
 
 install:	$(CONFIGURE_INSTALL)
