@@ -31,26 +31,15 @@ WS_MAKE_RULES=	$(WS_ROOT)/make-rules
 WS_REPO=	$(WS_ROOT)/repo
 WS_TOOLS=	$(WS_ROOT)/tools
 
-export WS_ROOT
-export WS_COMPONENTS
-export WS_DISTFILES
-export WS_MAKE_RULES
-export WS_REPO
-export WS_TOOLS
-
-COMPONENTS_MK=	$(WS_TOOLS)/components_mk
-
-BUILDDIR=	$(COMPONENT_DIR)/$(COMPONENT_SRC)
 COMPONENT_DIR=	$(shell pwd)
+BUILDDIR=	$(COMPONENT_DIR)/$(COMPONENT_SRC)
 COMPONENT_FILES= $(COMPONENT_DIR)/files
-INSTALLDIR=	$(COMPONENT_DIR)/install
+DESTDIR=	$(COMPONENT_DIR)/dest
 PROGRESSDIR=	$(COMPONENT_DIR)/progress
 SOURCEDIR=	$(COMPONENT_DIR)/$(COMPONENT_SRC)
 
 CP=		/bin/cp
 ENV=		/usr/bin/env
-EXTRACT=	$(WS_TOOLS)/extract.sh
-FETCH=		$(WS_TOOLS)/fetch.sh
 FIND=		/usr/bin/find
 GMAKE=		/usr/bin/gmake
 MD5SUM=		/usr/bin/md5sum
@@ -63,20 +52,3 @@ SHA256SUM=	/usr/bin/sha256sum
 SYMLINK=	/bin/ln -s -f
 TAR=		/bin/tar
 TOUCH=		/usr/bin/touch
-
-export CP
-export ENV
-export EXTRACT
-export FETCH
-export FIND
-export GMAKE
-export MD5SUM
-export MKDIR
-export MV
-export RM
-export SED
-export SH
-export SHA256SUM
-export SYMLINK
-export TAR
-export TOUCH
