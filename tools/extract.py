@@ -26,9 +26,9 @@
 #
 
 import argparse
+import os
 import re
 import sys
-import os
 
 def uncompress_command(file):
         uncompress = "/bin/cat"
@@ -45,12 +45,18 @@ def uncompress_command(file):
 
 def main():
         argparser = argparse.ArgumentParser(description="Extract archive")
-        argparser.add_argument("file", type=str, help="File to extract")
+        argparser.add_argument("--archive", type=str, help="Archive to extract")
+        argparser.add_argument("--workdir", type=str, help="Where archive must be extracted")
 
         args = argparser.parse_args(sys.argv[1:])
-        uncompress = uncompress_command(args.file)
+        if (args.archive is None):
+                print ("--archive is required")
+                sys.exit(2)
+
+        uncompress = uncompress_command(args.archive)
         extract = "/usr/bin/tar -xf - --no-same-owner --no-same-permissions"
-        os.system("%s %s | %s" % (uncompress, args.file, extract))
+        os.chdir(args.workdir)
+        os.system("%s %s | %s" % (uncompress, args.archive, extract))
 
 if __name__ == "__main__":
         main()
