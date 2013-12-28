@@ -38,14 +38,14 @@ $(PROGRESSDIR)/$(COMPONENT_ARCHIVE).downloaded:
 		$(VERBOSE)
 	@$(TOUCH) $@
 
-unpack::	$(PROGRESSDIR)/$(COMPONENT_ARCHIVE).unpacked
+unpack::	download $(PROGRESSDIR)/$(COMPONENT_ARCHIVE).unpacked
 $(PROGRESSDIR)/$(COMPONENT_ARCHIVE).unpacked:
 	@$(UNPACK) --archive $(WS_DISTFILES)/$(COMPONENT_ARCHIVE) \
 		--workdir $(COMPONENT_DIR) \
 		$(VERBOSE)
 	@$(TOUCH) $@
 
-patch::		$(PROGRESSDIR)/patched
+patch::		unpack $(PROGRESSDIR)/patched
 	@$(PATCHER) --patch-dir $(COMPONENT_DIR)/patch \
 		--srcdir $(SOURCEDIR) \
 		$(VERBOSE)
