@@ -34,15 +34,11 @@ COMPONENT_ARCHIVE=	${COMPONENT_SRC}.tar.xz
 COMPONENT_ARCHIVE_URL=	http://www.kernel.org/pub/linux/docs/$(COMPONENT_NAME)/$(COMPONENT_ARCHIVE)
 COMPONENT_ARCHIVE_HASH=	md5:c3ab5df043bc95de69f73cb71a3c7bb6
 
-include		$(WS_MAKE_RULES)/download.mk
-include		$(WS_MAKE_RULES)/extract.mk
+include		$(WS_MAKE_RULES)/prep.mk
+include		$(WS_MAKE_RULES)/make.mk
 
-build:		extract $(PROGRESSDIR)/built
-$(PROGRESSDIR)/built:
-	@make -C $(SOURCEDIR) gz
-	@$(TOUCH) $@
+COMPONENT_BUILD_TARGETS+=	gz
 
-install:	build $(PROGRESSDIR)/installed
-$(PROGRESSDIR)/installed:
-	@make -C $(SOURCEDIR) install DESTDIR=$(INSTALLDIR)
-	@$(TOUCH) $@
+build:		$(MAKE_BUILD)
+
+install:	$(MAKE_INSTALL)

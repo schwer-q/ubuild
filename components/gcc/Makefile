@@ -40,8 +40,7 @@ COMPONENT_DEPENDS+=	mpc
 COMPONENT_DEPENDS+=	mpfr
 COMPONENT_DEPENDS+=	zlib
 
-include		$(WS_MAKE_RULES)/download.mk
-include		$(WS_MAKE_RULES)/extract.mk
+include		$(WS_MAKE_RULES)/prep.mk
 
 patch::
 	@case `uname -m` in \

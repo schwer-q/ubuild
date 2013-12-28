@@ -35,8 +35,7 @@ COMPONENT_ARCHIVE_URL=	http://www.zlib.net/$(COMPONENT_ARCHIVE)
 COMPONENT_ARCHIVE_HASH=	md5:28f1205d8dd2001f26fec1e8c2cebe37
 COMPONENT_DEPENDS+=	glibc
 
-include		$(WS_MAKE_RULES)/download.mk
-include		$(WS_MAKE_RULES)/extract.mk
+include		$(WS_MAKE_RULES)/prep.mk
 include		$(WS_MAKE_RULES)/configure.mk
 
 build:		$(CONFIGURE_BUILD)

@@ -35,8 +35,7 @@ COMPONENT_ARCHIVE_URL=	http://ftp.gnu.org/gnu/${COMPONENT_NAME}/${COMPONENT_ARCH
 COMPONENT_ARCHIVE_HASH=	md5:88fbbceafee809e82efd52efa1e3c58f
 COMPONENT_DEPENDS+=	linux-headers:2.6.32
 
-include		$(WS_MAKE_RULES)/download.mk
-include		$(WS_MAKE_RULES)/extract.mk
+include		$(WS_MAKE_RULES)/prep.mk
 
 patch::
 	$(SED) -i -e 's/static __m128i/inline &/' $(SOURCEDIR)/sysdeps/x86_64/multiarch/strstr.c

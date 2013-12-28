@@ -36,8 +36,7 @@ COMPONENT_ARCHIVE_HASH=	md5:e3d203d188b8fe60bb6578dd3152e05c
 COMPONENT_DEPENDS+=	glibc
 COMPONENT_DEPENDS+=	gmp
 
-include		$(WS_MAKE_RULES)/download.mk
-include		$(WS_MAKE_RULES)/extract.mk
+include		$(WS_MAKE_RULES)/prep.mk
 include		$(WS_MAKE_RULES)/configure.mk
 
 CONFIGURE_OPTIONS=	--enable-thread-safe

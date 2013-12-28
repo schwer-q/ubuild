@@ -37,8 +37,7 @@ COMPONENT_DEPENDS+=	glibc
 COMPONENT_DEPENDS+=	gmp
 COMPONENT_DEPENDS+=	mpfr
 
-include		$(WS_MAKE_RULES)/download.mk
-include		$(WS_MAKE_RULES)/extract.mk
+include		$(WS_MAKE_RULES)/prep.mk
 include		$(WS_MAKE_RULES)/configure.mk
 
 build:		$(CONFIGURE_BUILD)

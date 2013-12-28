@@ -35,8 +35,7 @@ COMPONENT_ARCHIVE_URL=	http://ftp.gnu.org/gnu/$(COMPONENT_NAME)/$(COMPONENT_ARCH
 COMPONENT_ARCHIVE_HASH=	md5:06fe2ca164221c59ce74867155cfc1ac
 COMPONENT_DEPENDS+=	glibc
 
-include		$(WS_MAKE_RULES)/download.mk
-include		$(WS_MAKE_RULES)/extract.mk
+include		$(WS_MAKE_RULES)/prep.mk
 include		$(WS_MAKE_RULES)/configure.mk
 
 CONFIGURE_ENV+=		ABI=32

@@ -35,8 +35,7 @@ COMPONENT_ARCHIVE_URL=	ftp://ftp.astron.com/pub/$(COMPONENT_NAME)/$(COMPONENT_AR
 COMPONENT_ARCHIVE_HASH=	md5:c26625f1d6773ad4bc5a87c0e315632c
 COMPONENT_DEPENDS+=	glibc
 
-include		$(WS_MAKE_RULES)/download.mk
-include		$(WS_MAKE_RULES)/extract.mk
+include		$(WS_MAKE_RULES)/prep.mk
 include		$(WS_MAKE_RULES)/configure.mk
 
 build:		$(CONFIGURE_BUILD)

@@ -34,20 +34,17 @@ COMPONENT_ARCHIVE=	$(COMPONENT_SRC).tar.xz
 COMPONENT_ARCHIVE_URL=	http://www.kernel.org/pub/linux/kernel/v3.x/$(COMPONENT_ARCHIVE)
 COMPONENT_ARCHIVE_HASH=	md5:647f76225dd6bc112369ba573ba3de18
 
-include		$(WS_MAKE_RULES)/download.mk
-include		$(WS_MAKE_RULES)/extract.mk
+include		$(WS_MAKE_RULES)/prep.mk
+include		$(WS_MAKE_RULES)/make.mk
 
-prep::
-	@$(MAKE) mrproper
+COMPONENT_BUILD_PRE+=		$(MAKE) mrproper
+COMPONENT_BUILD_TARGETS+=	headers_check
 
-build:		extract $(PROGRESSDIR)/built
-$(PROGRESSDIR)/built:
-	@(cd $(SOURCEDIR); $(MAKE) headers_check)
-	@$(TOUCH) $@
+build:		$(MAKE_BUILD)
 
-install:	build $(PROGRESSDIR)/installed
-$(PROGRESSDIR)/installed:
-	@$(MKDIR) $(DESTDIR)/usr
-	@(cd $(SOURCEDIR); $(MAKE) INSTALL_HDR_PATH="$(INSTALLDIR)/usr" headers_install)
-	@$(FIND) $(INSTALLDIR)/usr/include \( -name .install -o -name ..install.cmd \) -delete
-	@$(TOUCH) $@
+COMPONEMT_INSTALL_PRE+=		$(MKDIR) $(DESTDIR)/usr
+COMPONEMT_INSTALL_ARGS+=	INSTALL_HDR_PATH="$(DESTDIR)/usr"
+COMPONEMT_INSTALL_TARGETS=	headers_install
+COMPONEMT_INSTALL_POST+=	$(FIND) $(DESTDIR)/usr/include \( -name .install -o -name ..install.cmd \) -delete
+
+install:	$(MAKE_INSTALL)
