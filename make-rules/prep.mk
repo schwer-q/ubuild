@@ -24,9 +24,34 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-extract:	$(PROGRESSDIR)/extracted
-$(PROGRESSDIR)/extracted:
-	@echo "Extracting $(COMPONENT_NAME)..."
-	@$(MKDIR) $(PROGRESSDIR)
-	@$(EXTRACT) $(WS_DISTFILES)/$(COMPONENT_ARCHIVE)
+FETCH=		$(WS_TOOLS)/download.py
+UNPACK=		$(WS_TOOLS)/extract.py
+PATCHER=	$(WS_TOOLS)/patch.py
+
+prep::		download unpack patch
+
+download::	$(PROGRESSDIR)/$(COMPONENT_ARCHIVE).downloaded
+$(PROGRESSDIR)/$(COMPONENT_ARCHIVE).downloaded:
+	@$(FETCH) --dest $(WS_DISTFILES)/$(COMPONENT_ARCHIVE) \
+		--url $(COMPONENT_ARCHIVE_URL) \
+		--hash $(COMPONENT_ARCHIVE_HASH) \
+		$(VERBOSE)
 	@$(TOUCH) $@
+
+unpack::	$(PROGRESSDIR)/$(COMPONENT_ARCHIVE).unpacked
+$(PROGRESSDIR)/$(COMPONENT_ARCHIVE).unpacked:
+	@$(UNPACK) --archive $(WS_DISTFILES)/$(COMPONENT_ARCHIVE) \
+		--workdir $(COMPONENT_DIR) \
+		$(VERBOSE)
+	@$(TOUCH) $@
+
+patch::		$(PROGRESSDIR)/patched
+	@$(PATCHER) --patch-dir $(COMPONENT_DIR)/patch \
+		--srcdir $(SOURCEDIR) \
+		$(VERBOSE)
+
+clean::
+	@echo "Cleanning..."
+	@$(RMDIR) $(DESTDIR)
+	@$(RMDIR) $(PROGRESSDIR)
+	@$(RMDIR) $(SOURCEDIR)
