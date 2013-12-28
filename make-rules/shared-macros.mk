@@ -52,3 +52,4 @@ SHA256SUM=	/usr/bin/sha256sum
 SYMLINK=	/bin/ln -s -f
 TAR=		/bin/tar
 TOUCH=		/usr/bin/touch
+RMDIR=		/bin/rm -f -r
