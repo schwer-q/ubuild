@@ -25,6 +25,7 @@
 #
 
 include 	../../make-rules/shared-macros.mk
+include		$(WS_MAKE_RULES)/toolchain.mk
 
 COMPONENT_NAME=		binutils
 COMPONENT_VERSION=	2.23.2
@@ -33,9 +34,8 @@ COMPONENT_ARCHIVE=	$(COMPONENT_SRC).tar.bz2
 
 include		$(WS_MAKE_RULES)/prep.mk
 
-patch::
-	$(SED) -i -e 's/@colophon/@@colophon/' \
-		  -e 's/doc@cygnus.com/doc@@cygnus.com/' $(SOURCEDIR)/bfd/doc/bfd.texinfo
+COMPONENT_PATCH_POST=	$(SED) -i -e 's/@colophon/@@colophon/'
+COMPONENT_PATCH_POST+=	-e 's/doc@cygnus.com/doc@@cygnus.com/' $(SOURCEDIR)/bfd/doc/bfd.texinfo
 
 include		$(WS_MAKE_RULES)/configure.mk
 
@@ -52,5 +52,7 @@ build:		$(CONFIGURE_BUILD)
 ifeq ($(shell uname -m), x86_64)
 COMPONENT_INSTALL_PRE=	$(MKDIR) /tools/lib && $(SYMLINK) lib /tools/lib64
 endif
+
+COMPONENT_INSTALL_ARGS=
 
 install:	$(CONFIGURE_INSTALL)

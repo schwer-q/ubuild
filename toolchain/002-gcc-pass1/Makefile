@@ -25,6 +25,7 @@
 #
 
 include 	../../make-rules/shared-macros.mk
+include 	$(WS_MAKE_RULES)/toolchain.mk
 
 COMPONENT_NAME=		gcc
 COMPONENT_VERSION=	4.8.1
@@ -33,21 +34,18 @@ COMPONENT_ARCHIVE=	$(COMPONENT_SRC).tar.bz2
 
 include		$(WS_MAKE_RULES)/prep.mk
 
-patch::
-	for file in \
-		$$(find $(SOURCEDIR)/gcc/config -name linux64.h -o -name linux.h -o -name sysv4.h); do \
-		$(CP) -u $$file $${file}.orig ; \
-		$(SED)  -e 's@/lib\(64\)\?\(32\)\?/ld@/tools&@g' \
-			-e 's@/usr@/tools@g' $${file}.orig > $$file ; \
-		echo ' \
-#undef STANDARD_STARTFILE_PREFIX_1 \
-#undef STANDARD_STARTFILE_PREFIX_2 \
-#define STANDARD_STARTFILE_PREFIX_1 "/tools/lib/" \
-#define STANDARD_STARTFILE_PREFIX_2 "" \
-' >> $$file ; \
-		$(TOUCH) $${file}.orig ; \
-	done
-	$(SED) -i '/k prot/agcc_cv_libc_provides_ssp=yes' $(SOURCEDIR)/gcc/configure
+COMPONENT_PATCH_POST=	for file in
+COMPONENT_PATCH_POST+=	$$(find $(SOURCEDIR)/gcc/config -name linux64.h -o -name linux.h -o -name sysv4.h); do
+COMPONENT_PATCH_POST+=	$(CP) -u $$file $${file}.orig ;
+COMPONENT_PATCH_POST+=	$(SED)  -e 's@/lib\(64\)\?\(32\)\?/ld@/tools&@g'
+COMPONENT_PATCH_POST+=	-e 's@/usr@/tools@g' $${file}.orig > $$file ;
+COMPONENT_PATCH_POST+=	echo '\#undef STANDARD_STARTFILE_PREFIX_1' >> $$file ;
+COMPONENT_PATCH_POST+=	echo '\#undef STANDARD_STARTFILE_PREFIX_2' >> $$file ;
+COMPONENT_PATCH_POST+=	echo '\#define STANDARD_STARTFILE_PREFIX_1 "/tools/lib/"' >> $$file ;
+COMPONENT_PATCH_POST+=	echo '\#define STANDARD_STARTFILE_PREFIX_2 ""' >> $$file ;
+COMPONENT_PATCH_POST+=	$(TOUCH) $${file}.orig ; 
+COMPONENT_PATCH_POST+=	done ;
+COMPONENT_PATCH_POST+=	$(SED) -i '/k prot/agcc_cv_libc_provides_ssp=yes' $(SOURCEDIR)/gcc/configure
 
 include		$(WS_MAKE_RULES)/configure.mk
 
