@@ -30,28 +30,33 @@ PATCHER=	$(WS_TOOLS)/patch.py
 
 prep::		download unpack patch
 
-download::	$(PROGRESSDIR)/$(COMPONENT_ARCHIVE).downloaded
-$(PROGRESSDIR)/$(COMPONENT_ARCHIVE).downloaded:
+download::	$(WORKDIR)/$(COMPONENT_ARCHIVE).downloaded
+$(WORKDIR)/$(COMPONENT_ARCHIVE).downloaded:
+ifndef COMPONENT_TOOLCHAIN
 	@$(FETCH) --dest $(WS_DISTFILES)/$(COMPONENT_ARCHIVE) \
 		--url $(COMPONENT_ARCHIVE_URL) \
 		--hash $(COMPONENT_ARCHIVE_HASH) \
 		$(VERBOSE)
+endif
+	@$(MKDIR) $(WORKDIR)
 	@$(TOUCH) $@
 
-unpack::	download $(PROGRESSDIR)/$(COMPONENT_ARCHIVE).unpacked
-$(PROGRESSDIR)/$(COMPONENT_ARCHIVE).unpacked:
+unpack::	download $(WORKDIR)/$(COMPONENT_ARCHIVE).unpacked
+$(WORKDIR)/$(COMPONENT_ARCHIVE).unpacked:
 	@$(UNPACK) --archive $(WS_DISTFILES)/$(COMPONENT_ARCHIVE) \
-		--workdir $(COMPONENT_DIR) \
+		--workdir $(WORKDIR) \
 		$(VERBOSE)
 	@$(TOUCH) $@
 
-patch::		unpack $(PROGRESSDIR)/patched
+patch:		unpack $(WORKDIR)/patched
+$(WORKDIR)/patched:
+	$(COMPONENT_PATCH_PRE)
 	@$(PATCHER) --patch-dir $(COMPONENT_DIR)/patch \
 		--srcdir $(SOURCEDIR) \
 		$(VERBOSE)
+	$(COMPONENT_PATCH_POST)
+	@$(TOUCH) $(WORKDIR)/patched
 
 clean::
 	@echo "Cleanning..."
-	@$(RMDIR) $(DESTDIR)
-	@$(RMDIR) $(PROGRESSDIR)
-	@$(RMDIR) $(SOURCEDIR)
+	@$(RMDIR) $(WORKDIR)
