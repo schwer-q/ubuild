@@ -34,13 +34,13 @@ def uncompress_command(file):
         uncompress = "/bin/cat"
 
         if (re.search("\.(bz2|tbz|tbz2)$", file) != None):
-                uncompress = "/usr/bin/bzip2 -c -d"
+                uncompress = "/bin/bzip2 -c -d"
         elif (re.search("\.(gz|tgz)$", file) != None):
-                uncompress = "/usr/bin/gzip -c -d"
+                uncompress = "/bin/gzip -c -d"
         elif (re.search("\.(txz|xz)$", file) != None):
                 uncompress = "/usr/bin/xz -c -d"
         elif (re.search("\.Z$", file) != None):
-                uncompress = "/usr/bin/uncompress -c"
+                uncompress = "/bin/uncompress -c"
         return (uncompress)
 
 def main():
@@ -54,7 +54,7 @@ def main():
                 sys.exit(2)
 
         uncompress = uncompress_command(args.archive)
-        extract = "/usr/bin/tar -xf - --no-same-owner --no-same-permissions"
+        extract = "/bin/tar -xf - --no-same-owner --no-same-permissions"
         os.chdir(args.workdir)
         os.system("%s %s | %s" % (uncompress, args.archive, extract))
 
