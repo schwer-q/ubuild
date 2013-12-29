@@ -25,6 +25,7 @@
 #
 
 include 	../make-rules/shared-macros.mk
+include		$(WS_MAKE_RULES)/toolchain.mk
 
 components.mk:
 	@echo -n "Generating components list..."
@@ -48,3 +49,8 @@ $(COMPONENT_DIRS): force
 	@+echo "$(TARGET) $@"; $(MAKE) -C $@ $(TARGET)
 
 force:
+
+setup:
+	$(MKDIR) $(LFS)
+	$(MKDIR) $(LFS)/tools
+	$(SYMLINK) $(LFS)/tools /
