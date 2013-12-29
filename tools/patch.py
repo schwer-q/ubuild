@@ -57,7 +57,10 @@ def main():
                 print ("--srcdir is required")
                 sys.exit(2)
 
-        patchs = list_patch(args.patch_dir)
+	try:
+		patchs = list_patch(args.patch_dir)
+	except OSError:
+		sys.exit(0)
 
         os.chdir(args.srcdir)
         print ("===> Patching...")
